@@ -6,9 +6,6 @@ import { Login }  from './screens/login';
 const App = () => {
   return ( 
     <Login />
-    // <View style={styles.container}>
-    //   <Text>Dynamo App</Text>
-    // </View>
   );
 }
 

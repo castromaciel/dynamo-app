@@ -1,8 +1,10 @@
 import React from 'react'
 import { Text, StyleSheet, View } from 'react-native';
-import { Button, Card, Paragraph, Title } from 'react-native-paper'
-import { GoogleAuthProvider, getAuth, signInWithRedirect, FacebookAuthProvider, 
-    signInWithPopup, signOut } from "firebase/auth";
+import { Button} from 'react-native-paper'
+import {
+    GoogleAuthProvider, getAuth, signInWithRedirect, FacebookAuthProvider,
+    signInWithPopup, signOut
+} from "firebase/auth";
 
 // import { getFirestore } from "firebase/firestore";
 import app from '../../firebase';
@@ -17,10 +19,15 @@ const Login = () => {
     const unsubscribe = auth.onAuthStateChanged(user => {
         if (user) {
             console.log("LogIn");
+            console.log(user.providerData[0].email);
+            console.log(user.providerData[0].displayName);
+            console.log(user.providerData[0].photoURL);
+            console.log(user.providerData[0].phoneNumber);
+            console.log(user.providerData[0].uid); // id para identificar de forma exclusiva a su usuario en la base de datos de usuarios de su proyecto de Firebase
         } else {
-            console.log("LogOut");
+            console.error("LogOut");
         }
-        console.log(user);
+        // console.log(user);
     })
 
     const onAuthGoogle = () => {
@@ -32,9 +39,9 @@ const Login = () => {
         signInWithRedirect(auth, providerFace);
         unsubscribe();
     }
-    
+
     const logOutAll = () => {
-        const auth=getAuth();
+        const auth = getAuth();
         signOut(auth).then(() => {
             console.log("LogOut")
         }).catch((error) => {
@@ -44,8 +51,6 @@ const Login = () => {
 
     return (
         <View style={styles.container}>
-            {/* <Text>Login</Text> */}
-            {/* <Button title="Sign-in with Google" onPress={onAuth}/> */}
             <Button onPress={onAuthGoogle}>Sign-in with Google</Button>
             <Button onPress={onAuthFaceebook}>Sign-in with Facebook</Button>
             <Button onPress={logOutAll}>LogOut</Button>
