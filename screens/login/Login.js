@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, StyleSheet, View } from 'react-native';
 import { Button, Card, Paragraph, Title } from 'react-native-paper'
-import { GoogleAuthProvider, getAuth, signInWithRedirect  } from "firebase/auth";
+import { GoogleAuthProvider, getAuth, signInWithRedirect, FacebookAuthProvider, signInWithPopup  } from "firebase/auth";
 
 // import { getFirestore } from "firebase/firestore";
 import app from '../../firebase';
@@ -9,17 +9,24 @@ import app from '../../firebase';
 
 const Login = () => {
     const provider = new GoogleAuthProvider();
+    const providerFace = new FacebookAuthProvider();
     const auth = getAuth(app);
+    
     // const db = getFirestore(Login);
 
     const onAuthGoogle = () => {
         signInWithRedirect(auth, provider);
+    }
+
+    const onAuthFaceebook = () => {
+        signInWithRedirect(auth, providerFace);
     }
     return (
         <View style={styles.container}>
             {/* <Text>Login</Text> */}
             {/* <Button title="Sign-in with Google" onPress={onAuth}/> */}
             <Button onPress={onAuthGoogle}>Sign-in with Google</Button>
+            <Button onPress={onAuthFaceebook}>Sign-in with Facebook</Button>
         </View>
     )
 }
