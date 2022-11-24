@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import { styles } from './appStyles';
+import Navbar from './src/components/Navbar/Navbar';
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <Text>Dynamo App</Text>
+      <Navbar />
     </View>
   );
 };
