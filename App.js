@@ -1,12 +1,16 @@
-import { View, Text } from 'react-native';
+import { useState } from 'react';
+import { View } from 'react-native';
 import { styles } from './appStyles';
+import BenefitModal from './src/components/BenefitModal/BenefitModal';
 
 const App = () => {
-  return ( 
+  const [isModalOpen, setisModalOpen] = useState(false);
+
+  return (
     <View style={styles.container}>
-      <Text>Dynamo App</Text>
+      <BenefitModal transparent isModalOpen={isModalOpen} setisModalOpen={setisModalOpen} />
     </View>
   );
-}
+};
 
 export default App;
