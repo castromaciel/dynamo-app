@@ -1,4 +1,4 @@
-import { Login } from './screens/login';
+import { Login } from './src/screens/login';
 
 const App = () => {
   return (
