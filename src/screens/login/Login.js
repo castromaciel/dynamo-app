@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { View } from 'react-native';
@@ -7,17 +8,15 @@ import {
   FacebookAuthProvider, signOut,
 } from 'firebase/auth';
 import {
-  getFirestore, getDocs, collection, addDoc, onSnapshot,
+  getFirestore, getDocs, collection, addDoc, query, where,
 } from 'firebase/firestore';
 // import { getDatabase, ref, set } from 'firebase/database';
 import app from '../../../firebase';
 import { styles } from './loginSytles';
 
 const Login = () => {
-  // const rootRef = firebase.database().ref();
-  // const { key } = rootRef;
   const [log, setLog] = useState(false);
-  // eslint-disable-next-line no-unused-vars
+  let arrayResultsBenficios = [];
 
   const provider = new GoogleAuthProvider();
   const providerFace = new FacebookAuthProvider();
@@ -49,11 +48,16 @@ const Login = () => {
   };
 
   const getColletionDataBenef = async () => {
-    const { docs } = await getDocs(collection(db, 'beneficios'));
-    // const benefMapped = docs.map(benef => benef.data());
-    const userbenefMappedIds = docs.map(benef => benef.id);
-    let dataLogin = {};
+    const beneficiosRef = collection(db, 'beneficios');
+    const q = query(beneficiosRef, where('onlystaff', '==', false), where('isactive', '==', true));
 
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      arrayResultsBenficios.push(doc.id); // asigna los ids de beneficios en false.-
+    });
+
+    let dataLogin = {};
+    console.log(arrayResultsBenficios);
     auth.onAuthStateChanged(user => {
       if (user) {
         setLog(true);
@@ -63,7 +67,7 @@ const Login = () => {
           email: user.providerData[0].email,
           fullname: user.providerData[0].displayName,
           isactive: true,
-          idbeneficio: userbenefMappedIds,
+          idbeneficio: arrayResultsBenficios,
           phonenumber: user.providerData[0].phoneNumber,
           role: 'user',
         };
@@ -71,7 +75,7 @@ const Login = () => {
         addUserLogged(dataLogin);
       } else {
         setLog(false);
-        console.error('LogOut');
+        console.error('LogOut Fuera...');
       }
     });
   };
@@ -142,3 +146,7 @@ export default Login;
 // }
 // console.log(benefMapped);
 // console.log(arrayIdBeneficios);
+// const { docs } = await getDocs(collection(db, 'beneficios'));
+// const benefMapped = docs.map(benef => benef.data());
+// const userbenefMappedIds = docs.map(benef => benef.id);
+// const filterBeneficiosForUser = userbenefMappedIds.filter()
