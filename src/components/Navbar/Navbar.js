@@ -2,7 +2,6 @@ import React from 'react';
 import {
   View, Image, Text,
 } from 'react-native';
-import { styles } from '../../../appStyles';
 
 const Navbar = () => {
   return (
