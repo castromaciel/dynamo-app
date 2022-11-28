@@ -1,6 +1,5 @@
 /* eslint-disable prefer-const */
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 import {
@@ -10,12 +9,10 @@ import {
 import {
   getFirestore, getDocs, collection, addDoc, query, where,
 } from 'firebase/firestore';
-// import { getDatabase, ref, set } from 'firebase/database';
 import app from '../../../firebase';
 import { styles } from './loginSytles';
 
 const Login = () => {
-  const [log, setLog] = useState(false);
   let arrayResultsBenficios = [];
 
   const provider = new GoogleAuthProvider();
@@ -37,16 +34,6 @@ const Login = () => {
     }
   };
 
-  // Consultar Colecciones
-  const getColletionDataUser = async () => {
-    const { docs } = await getDocs(collection(db, 'usuarios'));
-    const userMapped = docs.map(user => user.data());
-    const userMappedId = docs.map(user => user.id);
-    console.log(userMapped);
-    console.log(docs);
-    console.log(userMappedId);
-  };
-
   const getColletionDataBenef = async () => {
     const beneficiosRef = collection(db, 'beneficios');
     const q = query(beneficiosRef, where('onlystaff', '==', false), where('isactive', '==', true));
@@ -60,7 +47,6 @@ const Login = () => {
     console.log(arrayResultsBenficios);
     auth.onAuthStateChanged(user => {
       if (user) {
-        setLog(true);
         console.log('LogIn');
         dataLogin = {
           avatar: user.providerData[0].photoURL,
@@ -74,7 +60,6 @@ const Login = () => {
         console.log(dataLogin);
         addUserLogged(dataLogin);
       } else {
-        setLog(false);
         console.error('LogOut Fuera...');
       }
     });
@@ -84,11 +69,8 @@ const Login = () => {
   const subscribir = () => {
     auth.onAuthStateChanged(user => {
       if (user) {
-        setLog(true);
         console.log('LogIn');
-        // addUserLogged();
       } else {
-        setLog(false);
         console.error('LogOut');
       }
     });
@@ -121,32 +103,8 @@ const Login = () => {
       <Button onPress={onAuthGoogle}><b>Sign-in with Google</b></Button>
       <Button onPress={onAuthFaceebook}><b>Sign-in with Facebook</b></Button>
       <Button onPress={logOutAll}>LogOut</Button>
-      {/* <Button onPress={addUserLogged}>Add Loged User</Button>
-      <Button onPress={getColletionDataUser}>GetData Coleccion Usuarios</Button> */}
       <Button onPress={getColletionDataBenef}><b> ADD Data Coleccion Beneficios </b></Button>
     </View>
   );
 };
 export default Login;
-
-// const [datalogin, setDataLogin] = useState({
-//   avatar: '',
-//   email: '',
-//   fullname: '',
-//   isactive: false,
-//   phonenumber: 0,
-//   role: '',
-// });
-
-// // eslint-disable-next-line prefer-const
-// let arrayIdBeneficios = [];
-// // eslint-disable-next-line no-plusplus
-// for (let i = 0; i < benefMapped.length; i++) {
-//   arrayIdBeneficios.push(benefMapped[i].descripcion);
-// }
-// console.log(benefMapped);
-// console.log(arrayIdBeneficios);
-// const { docs } = await getDocs(collection(db, 'beneficios'));
-// const benefMapped = docs.map(benef => benef.data());
-// const userbenefMappedIds = docs.map(benef => benef.id);
-// const filterBeneficiosForUser = userbenefMappedIds.filter()
