@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Login, Dashboard } from './src/screens';
-import image from './assets/IsotipoNEGRORollingCode.fw.png';
+import image from './assets/img/IsotipoNEGRORollingCode.fw.png';
 
 const App = () => {
   const Stack = createNativeStackNavigator();

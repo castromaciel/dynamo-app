@@ -11,6 +11,7 @@ import {
   getFirestore, getDocs, collection, addDoc, query, where,
 } from 'firebase/firestore';
 // import { getDatabase, ref, set } from 'firebase/database';
+import { FacebookSocialButton, GoogleSocialButton } from 'react-native-social-buttons';
 import app from '../../../firebase';
 import { styles } from './loginSytles';
 
@@ -120,8 +121,14 @@ const Login = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <Button onPress={onAuthGoogle}><b>Sign-in with Google</b></Button>
-      <Button onPress={onAuthFaceebook}><b>Sign-in with Facebook</b></Button>
+      <FacebookSocialButton
+        buttonText='Continuar con Facebook'
+        onPress={onAuthFaceebook}
+      />
+      <GoogleSocialButton
+        buttonText='Continuar con Google'
+        onPress={onAuthGoogle}
+      />
       <Button onPress={logOutAll}>LogOut</Button>
       {/* <Button onPress={addUserLogged}>Add Loged User</Button>
       <Button onPress={getColletionDataUser}>GetData Coleccion Usuarios</Button> */}
