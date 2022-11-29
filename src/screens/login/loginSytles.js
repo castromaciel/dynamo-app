@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     height: 100,
     borderRadius: 100,
     alignSelf: 'center',
+    marginBottom: '100px',
   },
   socialIcon: {
     width: 13,

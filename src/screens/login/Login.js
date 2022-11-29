@@ -1,5 +1,4 @@
 /* eslint-disable prefer-const */
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { View, Image } from 'react-native';
 import { Button } from 'react-native-paper';
@@ -18,7 +17,6 @@ import { styles } from './loginSytles';
 const Login = ({ navigation }) => {
   const [log, setLog] = useState(false);
   let arrayResultsBenficios = [];
-
   const providerGoogle = new GoogleAuthProvider();
   const providerFacebook = new FacebookAuthProvider();
   const auth = getAuth(app);
@@ -99,12 +97,18 @@ const Login = ({ navigation }) => {
   const onAuthGoogle = () => {
     signInWithRedirect(auth, providerGoogle);
     subscribir();
+    if (log) {
+      getColletionDataBenef();
+    }
   };
 
   // Login Facebook
   const onAuthFaceebook = () => {
     signInWithRedirect(auth, providerFacebook);
     subscribir();
+    if (log) {
+      getColletionDataBenef();
+    }
   };
 
   // LogOut
@@ -123,9 +127,7 @@ const Login = ({ navigation }) => {
     <View style={styles.container}>
        <Image
         style={styles.principalImage}
-        source={{
-          uri: 'https://picsum.photos/100/100',
-        }}
+        source={require('../../../assets/img/logoRolling.png')}
       />
       <FacebookSocialButton
         buttonText='Continuar con Facebook'
