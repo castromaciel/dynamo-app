@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { Button } from 'react-native-paper';
 import {
   GoogleAuthProvider, getAuth, signInWithRedirect,
@@ -19,8 +19,8 @@ const Login = ({ navigation }) => {
   const [log, setLog] = useState(false);
   let arrayResultsBenficios = [];
 
-  const provider = new GoogleAuthProvider();
-  const providerFace = new FacebookAuthProvider();
+  const providerGoogle = new GoogleAuthProvider();
+  const providerFacebook = new FacebookAuthProvider();
   const auth = getAuth(app);
   const db = getFirestore(app);
 
@@ -97,13 +97,13 @@ const Login = ({ navigation }) => {
 
   // Login Google
   const onAuthGoogle = () => {
-    signInWithRedirect(auth, provider);
+    signInWithRedirect(auth, providerGoogle);
     subscribir();
   };
 
   // Login Facebook
   const onAuthFaceebook = () => {
-    signInWithRedirect(auth, providerFace);
+    signInWithRedirect(auth, providerFacebook);
     subscribir();
   };
 
@@ -121,6 +121,12 @@ const Login = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
+       <Image
+        style={styles.principalImage}
+        source={{
+          uri: 'https://picsum.photos/100/100',
+        }}
+      />
       <FacebookSocialButton
         buttonText='Continuar con Facebook'
         onPress={onAuthFaceebook}
