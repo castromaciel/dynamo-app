@@ -1,13 +1,34 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FlatList, TouchableOpacity, View } from 'react-native';
-import carouselItem from '../../../assets/carouselItem.json';
+import {
+  getFirestore, getDocs, collection,
+} from 'firebase/firestore';
+import app from '../../../firebase';
 import { CarouselItem } from '../CarouselItem';
 import { styles } from './styles';
 
+const db = getFirestore(app);
+
 const viewConfigRef = { viewAreaCoveragePercentThreshold: 95 };
+
 const Carousel = () => {
+  const [carouselItem, setCarouselItem] = useState([]);
+
   const flatListRef = useRef();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const getCarouselItems = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'beneficios'));
+      querySnapshot.forEach((doc) => {
+        setCarouselItem((prev) => [...prev, doc.data()]);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    getCarouselItems();
+  }, []);
 
   const onViewRef = useRef(({ changed }) => {
     if (changed[0].isViewable) {
@@ -40,7 +61,7 @@ const Carousel = () => {
 
       <View style={styles.dotView}>
         {
-          carouselItem.map((_, index) => (
+          carouselItem?.map((_, index) => (
             <TouchableOpacity
               key={index.toString()}
               style={[
