@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { styles } from './appStyles';
-import BenefitModal from './src/components/BenefitModal/BenefitModal';
+import BenefitModal from './src/components/BenefitModal';
 
 const App = () => {
   const [isModalOpen, setisModalOpen] = useState(false);
