@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { styles } from './appStyles';
 import MapIframe from './src/components/MapIframe/MapIframe';
 
