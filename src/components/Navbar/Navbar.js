@@ -20,7 +20,7 @@ const Navbar = () => {
         <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
           <Text style={{ marginHorizontal: 10 }}>Juan</Text>
           <Image
-            source={require('../../../assets/circle.png')}
+            source=''
             resizeMode='contain'
           />
         </View>
