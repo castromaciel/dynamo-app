@@ -1,13 +1,14 @@
 import React from 'react';
 import { View } from 'react-native';
-import { styles } from './appStyles';
 import MapIframe from './src/components/MapIframe/MapIframe';
 import Navbar from './src/components/Navbar/Navbar';
+import { Carousel } from './src/components/Carousel';
 
 const App = () => {
   return (
-    <View style={styles.container}>
+    <View>
       <Navbar />
+      <Carousel />
       <MapIframe />
     </View>
   );
