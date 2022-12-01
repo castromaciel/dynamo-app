@@ -1,10 +1,10 @@
 /* eslint-disable prefer-const */
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import {
-  GoogleAuthProvider, getAuth, signInWithRedirect,
-  FacebookAuthProvider, signOut,
+  GoogleAuthProvider, getAuth, signInWithRedirect, FacebookAuthProvider,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut,
 } from 'firebase/auth';
 import {
   getFirestore, getDocs, collection, addDoc, query, where,
@@ -40,7 +40,7 @@ const Login = () => {
         // eslint-disable-next-line no-alert
         alert('Hubo un error intente nuevamente...');
       }
-    // eslint-disable-next-line no-alert
+      // eslint-disable-next-line no-alert
     } else alert('Usuario en base de datos... Logueo normal sin alta...');
   };
 
@@ -98,6 +98,48 @@ const Login = () => {
     subscribir();
   };
 
+  // Login user and pass
+  const loginAuthWithEmailandPassword = () => {
+    signInWithEmailAndPassword(auth, 'jerodriguezb@zoho.com', 'jnet1234')
+      .then((userCredential) => {
+        // Signed in
+        const { user } = userCredential;
+        console.log(userCredential);
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    subscribir();
+  };
+
+  // Create user and pass
+  const createAuthWithEmailandPassword = () => {
+    createUserWithEmailAndPassword(auth, 'jerodriguezb@zoho.com', 'jnet1234')
+      .then((userCredential) => {
+        // Signed in
+        const { user } = userCredential;
+        console.log(userCredential);
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // Update Profile
+  const updateProfileWithEmailandPassword = () => {
+    const auth2 = getAuth();
+    updateProfile(auth2.currentUser, {
+      displayName: 'Julio Rodriguez',
+      photoURL: 'https://example.com/jane-q-user/profile.jpg',
+    }).then(() => {
+      console.log('Datos actualizados');
+    }).catch((error) => {
+      console.error(error, 'Hubo un error al actualizar...');
+    });
+  };
+
   // LogOut
   const logOutAll = () => {
     const authA = getAuth();
@@ -110,10 +152,17 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
-      <Button onPress={onAuthGoogle}><b>Sign-in with Google</b></Button>
-      <Button onPress={onAuthFaceebook}><b>Sign-in with Facebook</b></Button>
-      <Button onPress={logOutAll}>LogOut</Button>
-      <Button onPress={getColletionDataBenef}><b> ADD Data Coleccion Beneficios </b></Button>
+      <Button onPress={onAuthGoogle}><Text>Sign-in with Google</Text></Button>
+      <Button onPress={onAuthFaceebook}><Text>Sign-in with Facebook</Text></Button>
+      <Button onPress={createAuthWithEmailandPassword}><Text> Create User and Pass
+      </Text></Button>
+      <Button onPress={loginAuthWithEmailandPassword}><Text> Login User and Pass
+      </Text></Button>
+      <Button onPress={updateProfileWithEmailandPassword}><Text> Update User and Pass
+        </Text></Button>
+        <Button onPress={getColletionDataBenef}><Text>  ADD user logued to DataBase
+        </Text></Button>
+        <Button onPress={logOutAll}><Text>LogOut</Text></Button>
     </View>
   );
 };
