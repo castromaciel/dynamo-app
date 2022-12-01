@@ -1,11 +1,15 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { styles } from './appStyles';
+import { View } from 'react-native';
+import MapIframe from './src/components/MapIframe/MapIframe';
+import Navbar from './src/components/Navbar/Navbar';
+import { Carousel } from './src/components/Carousel';
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Dynamo App</Text>
+    <View>
+      <Navbar />
+      <Carousel />
+      <MapIframe />
     </View>
   );
 };
