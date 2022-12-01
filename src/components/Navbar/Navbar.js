@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  View, Image, Text,
+  View, Image, Text, TouchableOpacity, Alert,
 } from 'react-native';
+import { Dropdown } from '../Dropdown';
 
 const Navbar = () => {
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   return (
     <View style={{ marginVertical: 35 }}>
       <View
@@ -18,17 +20,24 @@ const Navbar = () => {
           style={{ marginHorizontal: 10 }}
         />
         <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
-          <Text style={{ marginHorizontal: 10 }}>Juan</Text>
-          <Image
-            source=''
-            resizeMode='contain'
-          />
+          <TouchableOpacity onPress={() => { setIsDropdownVisible(!isDropdownVisible); }}>
+            <Image
+              source={{ uri: 'https://lh3.googleusercontent.com/a/ALm5wu2ID_H9jjgmDHGS1Z9btE76gAoImdbiJqj9MUO43w=s288-p-rw-no-mo' }}
+              resizeMode='contain'
+              style={{ height: 40, width: 40, borderRadius: 100 }}
+            />
+          </TouchableOpacity>
+          {
+            isDropdownVisible
+              ? <Dropdown />
+              : null
+          }
         </View>
-      </View>
+      </View >
       <View>
         <Text style={{ padding: 20, fontWeight: '500' }}>Hola, Juan👋</Text>
       </View>
-    </View>
+    </View >
   );
 };
 
