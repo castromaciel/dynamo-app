@@ -1,10 +1,17 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { View } from 'react-native';
 import { styles } from './dashboardStyle';
+import MapIframe from '../../components/MapIframe/MapIframe';
+import Navbar from '../../components/Navbar/Navbar';
+import { Carousel } from '../../components/Carousel';
 
 const Dashboard = ({ navigation, route }) => {
   return (
-    <Text style={styles.container} > Dashboard </Text>
+    <View style={styles.container}>
+      <Navbar />
+      <Carousel />
+      <MapIframe />
+    </View>
   );
 };
 
