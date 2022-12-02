@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     paddingHorizontal: 10,
     alignItems: 'center',
   },
@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     height: 100,
     borderRadius: 100,
     alignSelf: 'center',
-    marginBottom: '100px',
+    marginBottom: 100,
   },
   socialIcon: {
     width: 13,
