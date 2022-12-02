@@ -8,7 +8,6 @@ const FacebookSocialButton = ({
   buttonViewStyle = '', logoStyle = '', textStyle = '', buttonText = '', onPress = () => {},
 }) => {
   const buttonStyles = { ...styles.facebookStyle, ...buttonViewStyle };
-  console.log(buttonStyles);
   const imageStyles = { ...styles.imageIconStyle, ...logoStyle };
   const textStyles = { ...styles.textStyle, ...textStyle };
   return (

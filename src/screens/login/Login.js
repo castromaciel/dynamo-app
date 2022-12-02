@@ -9,8 +9,7 @@ import {
   getFirestore, getDocs, collection, addDoc, query, where,
 } from 'firebase/firestore';
 // import { getDatabase, ref, set } from 'firebase/database';
-import { GoogleSocialButton } from 'react-native-social-buttons';
-import { FacebookSocialButton } from '../../components';
+import { FacebookSocialButton, GoogleSocialButton } from '../../components';
 import app from '../../../firebase';
 import { styles } from './loginSytles';
 
@@ -131,12 +130,12 @@ const Login = ({ navigation }) => {
         source={require('../../../assets/img/logoRolling.png')}
       />
       <FacebookSocialButton
-        buttonViewStyle={{ marginBottom: '100px' }}
         buttonText={'Desputo el que lee'}
         onPress={onAuthFaceebook}
       />
       <GoogleSocialButton
-        buttonText='Continuar con Google'
+        buttonViewStyle={{ marginBottom: '100px' }}
+        buttonText='Puto con Google'
         onPress={onAuthGoogle}
       />
       <Text>
