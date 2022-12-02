@@ -1,49 +1,48 @@
 /* eslint-disable prefer-const */
-import React, { useState } from 'react';
-import { View, Image } from 'react-native';
-import { Button } from 'react-native-paper';
+import React, { useEffect } from 'react';
+import { View, Image, Text } from 'react-native';
 import {
   GoogleAuthProvider, getAuth, signInWithRedirect,
-  FacebookAuthProvider, signOut,
+  FacebookAuthProvider, signOut, getRedirectResult,
 } from 'firebase/auth';
 import {
   getFirestore, getDocs, collection, addDoc, query, where,
 } from 'firebase/firestore';
 // import { getDatabase, ref, set } from 'firebase/database';
-import { FacebookSocialButton, GoogleSocialButton } from 'react-native-social-buttons';
+import { GoogleSocialButton } from 'react-native-social-buttons';
+import { FacebookSocialButton } from '../../components';
 import app from '../../../firebase';
 import { styles } from './loginSytles';
 
 const Login = ({ navigation }) => {
-  const [log, setLog] = useState(false);
   let arrayResultsBenficios = [];
   const providerGoogle = new GoogleAuthProvider();
   const providerFacebook = new FacebookAuthProvider();
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // Agregar user
+  // check Usuario que no se repita el Alta en Base de datos.-
+  // y Agrega Usuario
   const addUserLogged = async (dataLogin) => {
-    // const infoUser = dataLogin;
-    try {
-      await addDoc(collection(db, 'usuarios'), dataLogin);
-      // eslint-disable-next-line no-alert
-      alert(`Creado correctamente: ${dataLogin.fullname}`);
-    } catch (error) {
-      console.log(error);
-      // eslint-disable-next-line no-alert
-      alert('Hubo un error intente nuevamente...');
-    }
-  };
+    const usuariosRef = collection(db, 'usuarios');
+    let q;
+    await auth.onAuthStateChanged(user => {
+      q = query(usuariosRef, where('email', '==', user.providerData[0].email));
+    });
 
-  // Consultar Colecciones
-  const getColletionDataUser = async () => {
-    const { docs } = await getDocs(collection(db, 'usuarios'));
-    const userMapped = docs.map(user => user.data());
-    const userMappedId = docs.map(user => user.id);
-    console.log(userMapped);
-    console.log(docs);
-    console.log(userMappedId);
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs.length === 0) {
+      try {
+        await addDoc(collection(db, 'usuarios'), dataLogin);
+        // eslint-disable-next-line no-alert
+        alert(`Creado correctamente: ${dataLogin.fullname}`);
+      } catch (error) {
+        console.log(error);
+        // eslint-disable-next-line no-alert
+        alert('Hubo un error intente nuevamente...');
+      }
+    // eslint-disable-next-line no-alert
+    } else alert('Usuario en base de datos... Logueo normal sin alta...');
   };
 
   const getColletionDataBenef = async () => {
@@ -59,7 +58,6 @@ const Login = ({ navigation }) => {
     console.log(arrayResultsBenficios);
     auth.onAuthStateChanged(user => {
       if (user) {
-        setLog(true);
         console.log('LogIn');
         dataLogin = {
           avatar: user.providerData[0].photoURL,
@@ -73,7 +71,6 @@ const Login = ({ navigation }) => {
         console.log(dataLogin);
         addUserLogged(dataLogin);
       } else {
-        setLog(false);
         console.error('LogOut Fuera...');
       }
     });
@@ -83,11 +80,8 @@ const Login = ({ navigation }) => {
   const subscribir = () => {
     auth.onAuthStateChanged(user => {
       if (user) {
-        setLog(true);
         console.log('LogIn');
-        // addUserLogged();
       } else {
-        setLog(false);
         console.error('LogOut');
       }
     });
@@ -97,18 +91,11 @@ const Login = ({ navigation }) => {
   const onAuthGoogle = () => {
     signInWithRedirect(auth, providerGoogle);
     subscribir();
-    if (log) {
-      getColletionDataBenef();
-    }
   };
-
   // Login Facebook
   const onAuthFaceebook = () => {
     signInWithRedirect(auth, providerFacebook);
     subscribir();
-    if (log) {
-      getColletionDataBenef();
-    }
   };
 
   // LogOut
@@ -120,9 +107,23 @@ const Login = ({ navigation }) => {
       console.log('Ocurrio un error!!!', error);
     });
   };
-  const goToDashboard = () => {
-    navigation.navigate('Dashboard');
-  };
+    // To see the result of the login
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        const user = result?.user;
+        if (user && token) {
+          getColletionDataBenef();
+          navigation.navigate('Dashboard');
+        }
+      }).catch((error) => {
+        const errorCode = error?.code;
+        const errorMessage = error?.message;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+      });
+  }, []);
   return (
     <View style={styles.container}>
        <Image
@@ -137,11 +138,10 @@ const Login = ({ navigation }) => {
         buttonText='Continuar con Google'
         onPress={onAuthGoogle}
       />
-      <Button onPress={logOutAll}>LogOut</Button>
-      {/* <Button onPress={addUserLogged}>Add Loged User</Button>
-      <Button onPress={getColletionDataUser}>GetData Coleccion Usuarios</Button> */}
-      <Button onPress={goToDashboard}>Go to dashboard</Button>
-      <Button onPress={getColletionDataBenef}><b> ADD Data Coleccion Beneficios </b></Button>
+      <Text style={{ marginTop: '100px' }}>
+        Si continúas, aceptas los Términos del servicio de Dynamo y
+        confirmas que has leído nuestra Política de privacidad.
+      </Text>
     </View>
   );
 };

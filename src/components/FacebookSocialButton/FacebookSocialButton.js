@@ -4,20 +4,21 @@ import {
 } from 'react-native';
 import { styles } from './facebookSocialButtonStyles';
 
-const FacebookSocialButton = () => {
+const FacebookSocialButton = (buttonViewStyle = '', logoStyle = '', textStyle = '', buttonText = '') => {
+  const buttonStyles = { ...styles.facebookStyle, ...buttonViewStyle };
+  const imageStyles = { ...styles.imageIconStyle, ...logoStyle };
+  const textStyles = { ...styles.textStyle, ...textStyle };
   return (
     <TouchableOpacity
-        style={{ ...styles.facebookStyle, ...this.props.buttonViewStyle }}
-        onPress={this.props.onPress}
+        style={buttonStyles}
+        // onPress={this.props.onPress}
       >
         <Image
           source={require('../../../assets/img/facebook.png')}
-          style={{ ...styles.imageIconStyle, ...this.props.logoStyle }}
+          style={imageStyles}
         />
-        <Text style={{ ...styles.textStyle, ...this.props.textStyle }}>
-          {this.props.buttonText
-            ? this.props.buttonText
-            : 'Sign in with Facebook'}
+        <Text style={textStyles}>
+          {buttonText || 'Sign in with Facebook'}
         </Text>
       </TouchableOpacity>
   );
