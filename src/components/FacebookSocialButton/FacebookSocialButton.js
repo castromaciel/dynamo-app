@@ -4,14 +4,17 @@ import {
 } from 'react-native';
 import { styles } from './facebookSocialButtonStyles';
 
-const FacebookSocialButton = (buttonViewStyle = '', logoStyle = '', textStyle = '', buttonText = '') => {
+const FacebookSocialButton = ({
+  buttonViewStyle = '', logoStyle = '', textStyle = '', buttonText = '', onPress = () => {},
+}) => {
   const buttonStyles = { ...styles.facebookStyle, ...buttonViewStyle };
+  console.log(buttonStyles);
   const imageStyles = { ...styles.imageIconStyle, ...logoStyle };
   const textStyles = { ...styles.textStyle, ...textStyle };
   return (
     <TouchableOpacity
         style={buttonStyles}
-        // onPress={this.props.onPress}
+        onPress={onPress}
       >
         <Image
           source={require('../../../assets/img/facebook.png')}

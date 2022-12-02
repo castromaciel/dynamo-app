@@ -131,14 +131,15 @@ const Login = ({ navigation }) => {
         source={require('../../../assets/img/logoRolling.png')}
       />
       <FacebookSocialButton
-        buttonText='Continuar con Facebook'
+        buttonViewStyle={{ marginBottom: '100px' }}
+        buttonText={'Desputo el que lee'}
         onPress={onAuthFaceebook}
       />
       <GoogleSocialButton
         buttonText='Continuar con Google'
         onPress={onAuthGoogle}
       />
-      <Text style={{ marginTop: '100px' }}>
+      <Text>
         Si continúas, aceptas los Términos del servicio de Dynamo y
         confirmas que has leído nuestra Política de privacidad.
       </Text>
