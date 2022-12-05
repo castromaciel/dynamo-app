@@ -46,7 +46,7 @@ const Carousel = () => {
     >
       <FlatList
         data={carouselItem}
-        renderItem={CarouselItem}
+        renderItem={(object) => <CarouselItem {...object} />}
         keyExtractor={(item, index) => index.toString()}
         horizontal
         showsHorizontalScrollIndicator={false}
