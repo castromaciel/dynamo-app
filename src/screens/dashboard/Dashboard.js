@@ -1,15 +1,14 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
 import { styles } from './dashboardStyle';
-import { Navbar, Carousel, MapIframe } from '../../components';
+import { Carousel, MapIframe } from '../../components';
+import { DefaultScreen } from '../../layout';
 
 const Dashboard = () => {
   return (
-    <ScrollView style={styles.container}>
-      <Navbar />
+    <DefaultScreen style={styles.container}>
       <Carousel />
       <MapIframe />
-    </ScrollView>
+    </DefaultScreen>
   );
 };
 
