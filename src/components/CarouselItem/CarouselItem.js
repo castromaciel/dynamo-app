@@ -9,7 +9,6 @@ const CarouselItem = ({ item }) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => console.log('click')}
       activeOpacity={1}
       style={styles.carouselItem}
     >
