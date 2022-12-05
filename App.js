@@ -1,15 +1,34 @@
-import { useState } from 'react';
-import { View } from 'react-native';
-import { styles } from './appStyles';
-import BenefitModal from './src/components/BenefitModal';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Login, Dashboard } from './src/screens';
+import image from './assets/img/logoRolling.png';
 
 const App = () => {
-  const [isModalOpen, setisModalOpen] = useState(false);
-
+  const Stack = createNativeStackNavigator();
   return (
-    <View style={styles.container}>
-      <BenefitModal transparent isModalOpen={isModalOpen} setisModalOpen={setisModalOpen} />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name='Login'
+          component={Login}
+          options={{
+            title: 'Dynamo App',
+            headerStyle: {
+              backgroundColor: '#D9D9D9',
+            },
+          }}
+        />
+        <Stack.Screen
+          name='Dashboard'
+          component={Dashboard}
+          options={{
+            headerTitleAlign: 'center',
+            headerBackImageSource: `${image}`,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
