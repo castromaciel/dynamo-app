@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import {
-  Image, View, Text, TouchableOpacity, ScrollView,
+  Image, View, Text, TouchableOpacity,
 } from 'react-native';
 import { BenefitModal } from '../../components';
+import { DefaultScreen } from '../../layout';
 import { styles } from './styles';
 
 const BenfitDetail = ({ route }) => {
   const [isModalOpen, setisModalOpen] = useState(false);
   const { item } = route.params;
   return (
-    <ScrollView style={styles.container}>
+    <DefaultScreen style={styles.container}>
       <View>
         <Image
           style={styles.image}
@@ -26,7 +27,7 @@ const BenfitDetail = ({ route }) => {
         </TouchableOpacity>
       </View>
       <BenefitModal transparent isModalOpen={isModalOpen} setisModalOpen={setisModalOpen} />
-    </ScrollView>
+    </DefaultScreen>
   );
 };
 export default BenfitDetail;
