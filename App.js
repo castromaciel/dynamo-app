@@ -1,8 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Login, Dashboard } from './src/screens';
-import image from './assets/img/logoRolling.png';
+import { Login, Dashboard, BenfitDetail } from './src/screens';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -13,18 +12,21 @@ const App = () => {
           name='Login'
           component={Login}
           options={{
-            title: 'Dynamo App',
-            headerStyle: {
-              backgroundColor: '#D9D9D9',
-            },
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name='Dashboard'
           component={Dashboard}
           options={{
-            headerTitleAlign: 'center',
-            headerBackImageSource: `${image}`,
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name='Benefit Modal'
+          component={BenfitDetail}
+          options={{
+            headerShown: false,
           }}
         />
       </Stack.Navigator>

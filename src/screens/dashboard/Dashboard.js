@@ -1,15 +1,15 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { styles } from './dashboardStyle';
-import { Navbar, Carousel, MapIframe } from '../../components/index';
+import { Navbar, Carousel, MapIframe } from '../../components';
 
-const Dashboard = ({ navigation, route }) => {
+const Dashboard = () => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Navbar />
       <Carousel />
       <MapIframe />
-    </View>
+    </ScrollView>
   );
 };
 

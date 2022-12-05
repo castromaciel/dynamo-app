@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import {
-  Image, View, Text, TouchableOpacity,
+  Image, View, Text, TouchableOpacity, ScrollView,
 } from 'react-native';
-import { BenefitModal } from '../../components/BenefitModal';
+import { BenefitModal } from '../../components';
 import { styles } from './styles';
 
-const BenfitDetail = ({ item }) => {
+const BenfitDetail = ({ route }) => {
   const [isModalOpen, setisModalOpen] = useState(false);
+  const { item } = route.params;
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View>
         <Image
           style={styles.image}
@@ -16,8 +17,7 @@ const BenfitDetail = ({ item }) => {
       </View>
       <View style={styles.content}>
         <Text style={styles.contentText}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Eum tempora voluptatem, natus blanditiis quia atque numquam nobis dolorum omnis tempore.
+          {item.descripcion}
         </Text>
       </View>
       <View style={styles.footer}>
@@ -26,8 +26,7 @@ const BenfitDetail = ({ item }) => {
         </TouchableOpacity>
       </View>
       <BenefitModal transparent isModalOpen={isModalOpen} setisModalOpen={setisModalOpen} />
-    </View>
+    </ScrollView>
   );
 };
-
 export default BenfitDetail;
