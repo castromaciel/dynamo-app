@@ -1,9 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { styles } from './dashboardStyle';
-import MapIframe from '../../components/MapIframe/MapIframe';
-import Navbar from '../../components/Navbar/Navbar';
-import { Carousel } from '../../components/Carousel';
+import { Navbar, Carousel, MapIframe } from '../../components/index';
 
 const Dashboard = ({ navigation, route }) => {
   return (

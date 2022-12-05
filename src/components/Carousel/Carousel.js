@@ -4,7 +4,7 @@ import {
   getFirestore, getDocs, collection,
 } from 'firebase/firestore';
 import app from '../../../firebase';
-import { CarouselItem } from '../CarouselItem';
+import { CarouselItem } from '../index';
 import { styles } from './styles';
 
 const db = getFirestore(app);
