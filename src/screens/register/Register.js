@@ -106,7 +106,7 @@ const Register = ({ navigation }) => {
           // Update Profile
           const auth2 = getAuth();
           updateProfile(auth2.currentUser, {
-            displayName: `${data.firstName}`,
+            displayName: `${data.firstName} ${data.lastName}`,
             photoURL: 'https://picsum.photos/100/100',
           }).then(() => {
             getColletionDataBenef();
@@ -161,7 +161,7 @@ const Register = ({ navigation }) => {
     }
   };
   return (
-      <KeyboardAvoidingView
+      <View
       style={styles.container}
       behavior='padding'
       >
@@ -280,7 +280,7 @@ const Register = ({ navigation }) => {
             <Text style={styles.buttonOutlineText}>Retroceder</Text>
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
+      </View>
   );
 };
 

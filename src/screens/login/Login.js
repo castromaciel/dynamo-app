@@ -53,6 +53,8 @@ const Login = ({ navigation }) => {
         const { user } = userCredential;
         console.log(userCredential);
         console.log(user);
+        console.log(user.providerData[0]);
+        navigation.navigate('Dashboard');
       })
       .catch((error) => {
         Alert.alert(
@@ -69,7 +71,7 @@ const Login = ({ navigation }) => {
   };
 
   return (
-       <KeyboardAvoidingView
+       <View
       style={styles.container}
       behavior='padding'
     >
@@ -131,7 +133,7 @@ const Login = ({ navigation }) => {
         Si continúas, aceptas los Términos del servicio de Dynamo y
         confirmas que has leído nuestra Política de privacidad.
       </Text>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 export default Login;
