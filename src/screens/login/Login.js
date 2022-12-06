@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 import React from 'react';
 import {
-  View, Image, Text, TextInput, KeyboardAvoidingView, TouchableOpacity, Alert,
+  View, Image, Text, TextInput, TouchableOpacity, Alert,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
@@ -17,39 +17,11 @@ const Login = ({ navigation }) => {
       password: '',
     },
   });
-
-  // const provider = new GoogleAuthProvider();
-  // const providerFace = new FacebookAuthProvider();
   const auth = getAuth(app);
 
-  // login / logOut
-  /* const subscribir = () => {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        console.log('LogIn');
-      } else {
-        console.error('LogOut');
-      }
-    });
-  };
- */
-  // Login Google
-  /*   const onAuthGoogle = () => {
-    signInWithRedirect(auth, provider);
-    subscribir();
-  }; */
-
-  // Login Facebook
-  /*   const onAuthFaceebook = () => {
-      signInWithRedirect(auth, providerFace);
-      subscribir();
-    }; */
-
-  // Login user and pass
   const loginAuthWithEmailandPassword = (data) => {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
-        // Signed in
         const { user } = userCredential;
         console.log(userCredential);
         console.log(user);
@@ -67,7 +39,6 @@ const Login = ({ navigation }) => {
         );
         console.log(error);
       });
-    // subscribir();
   };
 
   return (

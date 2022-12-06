@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  View, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, Alert,
+  View, Text, TextInput, TouchableOpacity, Alert,
 } from 'react-native';
 
 import {
@@ -35,8 +35,7 @@ const Register = ({ navigation }) => {
 
   const db = getFirestore(app);
   const auth = getAuth(app);
-  // check Usuario que no se repita el Alta en Base de datos.-
-  // y Agrega Usuario
+
   const addUserLogged = async (dataLogin) => {
     const usuariosRef = collection(db, 'usuarios');
     let q;
@@ -66,7 +65,7 @@ const Register = ({ navigation }) => {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      arrayResultsBenficios.push(doc.id); // asigna los ids de beneficios en false.-
+      arrayResultsBenficios.push(doc.id);
     });
 
     let dataLogin = {};
@@ -96,14 +95,11 @@ const Register = ({ navigation }) => {
     });
   };
 
-  // Create user and pass
   const createAuthWithEmailandPassword = (data) => {
     if (data.password === data.confirmPassword && isValid) {
       createUserWithEmailAndPassword(auth, data.email, data.password)
         .then((userCredential) => {
-          // Signed in
           const { user } = userCredential;
-          // Update Profile
           const auth2 = getAuth();
           updateProfile(auth2.currentUser, {
             displayName: `${data.firstName} ${data.lastName}`,
