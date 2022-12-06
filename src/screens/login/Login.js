@@ -1,7 +1,12 @@
 /* eslint-disable prefer-const */
 import React from 'react';
 import {
-  View, Image, Text, TextInput, TouchableOpacity, Alert,
+  View,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
@@ -14,12 +19,17 @@ import { setUser } from '../../../slices/userSlice';
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const emailValidation = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       email: '',
       password: '',
     },
   });
+
   const auth = getAuth(app);
 
   const setUserActive = (user) => {
@@ -38,28 +48,24 @@ const Login = ({ navigation }) => {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         const { user } = userCredential;
-        console.log(user.providerData[0]);
+        console.log(userCredential);
+        console.log(user);
         navigation.navigate('Dashboard');
         setUserActive(user);
       })
       .catch((error) => {
-        Alert.alert(
-          'Error',
-          error.message,
-          [{
+        Alert.alert('Error', error.message, [
+          {
             text: 'Continuar',
             onPress: () => { },
-          }],
-        );
+          },
+        ]);
         console.log(error);
       });
   };
 
   return (
-    <View
-      style={styles.container}
-      behavior='padding'
-    >
+    <View style={styles.container} behavior='padding'>
       <Image
         style={styles.principalImage}
         source={require('../../../assets/img/logoRolling.png')}
@@ -73,15 +79,23 @@ const Login = ({ navigation }) => {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
+              placeholder='Ingrese su email'
               style={styles.input}
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
             />
           )}
-          name="email"
+          name='email'
         />
-        {errors.email && <Text style={styles.errorText}>This is required.</Text>}
+        {errors.email && errors.email.type === 'pattern' && (
+          <Text style={styles.errorText}>
+            Por favor, verifica la información ingresada.
+          </Text>
+        )}
+        {errors.email && errors.email.type === 'required' && (
+          <Text style={styles.errorText}>Este campo es obligatorio.</Text>
+        )}
         <Controller
           control={control}
           rules={{
@@ -89,6 +103,7 @@ const Login = ({ navigation }) => {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
+              placeholder='Ingrese su contraseña'
               style={styles.input}
               onBlur={onBlur}
               onChangeText={onChange}
@@ -96,7 +111,7 @@ const Login = ({ navigation }) => {
               secureTextEntry
             />
           )}
-          name="password"
+          name='password'
         />
         {errors.password && <Text>This is required.</Text>}
       </View>
@@ -115,8 +130,8 @@ const Login = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <Text style={styles.bottomText}>
-        Si continúas, aceptas los Términos del servicio de Dynamo y
-        confirmas que has leído nuestra Política de privacidad.
+        Si continúas, aceptas los Términos del servicio de Dynamo y confirmas
+        que has leído nuestra Política de privacidad.
       </Text>
     </View>
   );
