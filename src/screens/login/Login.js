@@ -22,67 +22,10 @@ const Login = ({ navigation }) => {
       password: '',
     },
   });
-  let arrayResultsBenficios = [];
 
   const provider = new GoogleAuthProvider();
   const providerFace = new FacebookAuthProvider();
   const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  // check Usuario que no se repita el Alta en Base de datos.-
-  // y Agrega Usuario
-  const addUserLogged = async (dataLogin) => {
-    const usuariosRef = collection(db, 'usuarios');
-    let q;
-    await auth.onAuthStateChanged(user => {
-      q = query(usuariosRef, where('email', '==', user.providerData[0].email));
-    });
-
-    const querySnapshot = await getDocs(q);
-    if (querySnapshot.docs.length === 0) {
-      try {
-        await addDoc(collection(db, 'usuarios'), dataLogin);
-        // eslint-disable-next-line no-alert
-        alert(`Creado correctamente: ${dataLogin.fullname}`);
-      } catch (error) {
-        console.log(error);
-        // eslint-disable-next-line no-alert
-        alert('Hubo un error intente nuevamente...');
-      }
-      // eslint-disable-next-line no-alert
-    } else alert('Usuario en base de datos... Logueo normal sin alta...');
-  };
-
-  const getColletionDataBenef = async () => {
-    const beneficiosRef = collection(db, 'beneficios');
-    const q = query(beneficiosRef, where('onlystaff', '==', false), where('isactive', '==', true));
-
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      arrayResultsBenficios.push(doc.id); // asigna los ids de beneficios en false.-
-    });
-
-    let dataLogin = {};
-    console.log(arrayResultsBenficios);
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        console.log('LogIn');
-        dataLogin = {
-          avatar: user.providerData[0].photoURL,
-          email: user.providerData[0].email,
-          fullname: user.providerData[0].displayName,
-          isactive: true,
-          idbeneficio: arrayResultsBenficios,
-          phonenumber: user.providerData[0].phoneNumber,
-          role: 'user',
-        };
-        console.log(dataLogin);
-        addUserLogged(dataLogin);
-      } else {
-        console.error('LogOut Fuera...');
-      }
-    });
-  };
 
   // login / logOut
   const subscribir = () => {
@@ -141,7 +84,6 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
        <KeyboardAvoidingView
       style={styles.container}
       behavior='padding'
@@ -205,13 +147,6 @@ const Login = ({ navigation }) => {
         confirmas que has leído nuestra Política de privacidad.
       </Text>
     </KeyboardAvoidingView>
-      <Button onPress={onAuthGoogle} title="Sign-in with Google"/>
-      <Button onPress={onAuthFaceebook} title="Sign-in with Facebook"/>
-      <Button onPress={loginAuthWithEmailandPassword} title=" Login User and Pass"/>
-      {/* <Button onPress={updateProfileWithEmailandPassword} title="Update User and Pass"/> */}
-      <Button onPress={getColletionDataBenef} title="ADD user logued to DataBase"/>
-      <Button onPress={logOutAll} title="LogOut"/>
-    </View>
   );
 };
 export default Login;

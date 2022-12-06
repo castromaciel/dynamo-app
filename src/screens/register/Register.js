@@ -1,10 +1,16 @@
 import React from 'react';
+
 import {
   View, Button, KeyboardAvoidingView, Text, TextInput, TouchableOpacity,
 } from 'react-native';
+
 import {
   createUserWithEmailAndPassword, getAuth, updateProfile,
 } from 'firebase/auth';
+
+import {
+  getFirestore, getDocs, collection, addDoc, query, where,
+} from 'firebase/firestore';
 
 import { useForm, Controller } from 'react-hook-form';
 import app from '../../../firebase';
@@ -13,6 +19,7 @@ import { styles } from './registerStyles';
 const Register = ({ navigation }) => {
   const emailValidation = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
   const onlyLetters = /^[a-zA-ZáéíóúÁÉÍÓÚ]+$/;
+  const arrayResultsBenficios = [];
 
   const {
     control, setError, handleSubmit, formState: { errors, isValid },
@@ -26,7 +33,62 @@ const Register = ({ navigation }) => {
     },
   });
 
+  const db = getFirestore(app);
   const auth = getAuth(app);
+  // check Usuario que no se repita el Alta en Base de datos.-
+  // y Agrega Usuario
+  const addUserLogged = async (dataLogin) => {
+    const usuariosRef = collection(db, 'usuarios');
+    let q;
+    await auth.onAuthStateChanged(user => {
+      q = query(usuariosRef, where('email', '==', user.providerData[0].email));
+    });
+
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs.length === 0) {
+      try {
+        await addDoc(collection(db, 'usuarios'), dataLogin);
+        // eslint-disable-next-line no-alert
+        alert(`Creado correctamente: ${dataLogin.fullname}`);
+      } catch (error) {
+        console.log(error);
+        // eslint-disable-next-line no-alert
+        alert('Hubo un error intente nuevamente...');
+      }
+      // eslint-disable-next-line no-alert
+    } else alert('Usuario en base de datos... Logueo normal sin alta...');
+  };
+  const getColletionDataBenef = async () => {
+    const beneficiosRef = collection(db, 'beneficios');
+    const q = query(beneficiosRef, where('onlystaff', '==', false), where('isactive', '==', true));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      arrayResultsBenficios.push(doc.id); // asigna los ids de beneficios en false.-
+    });
+
+    let dataLogin = {};
+    console.log(arrayResultsBenficios);
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        console.log('LogIn');
+        dataLogin = {
+          avatar: user.providerData[0].photoURL,
+          email: user.providerData[0].email,
+          fullname: user.providerData[0].displayName,
+          isactive: true,
+          idbeneficio: arrayResultsBenficios,
+          phonenumber: user.providerData[0].phoneNumber,
+          role: 'user',
+        };
+        console.log(dataLogin);
+        addUserLogged(dataLogin);
+      } else {
+        console.error('LogOut Fuera...');
+      }
+    });
+  };
+
   // Create user and pass
   const createAuthWithEmailandPassword = (data) => {
     if (data.password === data.confirmPassword && isValid) {
