@@ -3,13 +3,16 @@ import React from 'react';
 import {
   View, Image, Text, TextInput, TouchableOpacity, Alert,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 import app from '../../../firebase';
 import { styles } from './loginSytles';
+import { setUser } from '../../../slices/userSlice';
 
 const Login = ({ navigation }) => {
+  const dispatch = useDispatch();
   const emailValidation = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
@@ -19,14 +22,25 @@ const Login = ({ navigation }) => {
   });
   const auth = getAuth(app);
 
+  const setUserActive = (user) => {
+    dispatch(setUser({
+      fullname: user.providerData[0].displayName,
+      email: user.providerData[0].email,
+      avatar: user.providerData[0].photoURL,
+      phonenumber: user.providerData[0].phoneNumber,
+      role: 'user',
+      idbeneficio: '',
+      isactive: true,
+    }));
+  };
+
   const loginAuthWithEmailandPassword = (data) => {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         const { user } = userCredential;
-        console.log(userCredential);
-        console.log(user);
         console.log(user.providerData[0]);
         navigation.navigate('Dashboard');
+        setUserActive(user);
       })
       .catch((error) => {
         Alert.alert(
@@ -34,7 +48,7 @@ const Login = ({ navigation }) => {
           error.message,
           [{
             text: 'Continuar',
-            onPress: () => {},
+            onPress: () => { },
           }],
         );
         console.log(error);
@@ -42,11 +56,11 @@ const Login = ({ navigation }) => {
   };
 
   return (
-       <View
+    <View
       style={styles.container}
       behavior='padding'
     >
-       <Image
+      <Image
         style={styles.principalImage}
         source={require('../../../assets/img/logoRolling.png')}
       />
@@ -87,19 +101,19 @@ const Login = ({ navigation }) => {
         {errors.password && <Text>This is required.</Text>}
       </View>
       <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={handleSubmit(loginAuthWithEmailandPassword)}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Register')}
-            style={[styles.button, styles.buttonOutline]}
-          >
-            <Text style={styles.buttonOutlineText}>Register</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          onPress={handleSubmit(loginAuthWithEmailandPassword)}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Register')}
+          style={[styles.button, styles.buttonOutline]}
+        >
+          <Text style={styles.buttonOutlineText}>Register</Text>
+        </TouchableOpacity>
+      </View>
       <Text style={styles.bottomText}>
         Si continúas, aceptas los Términos del servicio de Dynamo y
         confirmas que has leído nuestra Política de privacidad.
