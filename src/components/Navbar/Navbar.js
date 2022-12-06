@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  View, Image, Text, TouchableOpacity, Alert,
+  View, Image, Text, TouchableOpacity,
 } from 'react-native';
 import { Dropdown } from '../Dropdown';
 
@@ -28,9 +28,7 @@ const Navbar = () => {
             />
           </TouchableOpacity>
           {
-            isDropdownVisible
-              ? <Dropdown />
-              : null
+            isDropdownVisible && <Dropdown />
           }
         </View>
       </View >
