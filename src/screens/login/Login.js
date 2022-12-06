@@ -73,16 +73,6 @@ const Login = ({ navigation }) => {
     subscribir();
   };
 
-  // LogOut
-  const logOutAll = () => {
-    const authA = getAuth();
-    signOut(authA).then(() => {
-      console.log('LogOut');
-    }).catch((error) => {
-      console.log('Ocurrio un error!!!', error);
-    });
-  };
-
   return (
        <KeyboardAvoidingView
       style={styles.container}
