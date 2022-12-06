@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  View, Button, KeyboardAvoidingView, Text, TextInput, TouchableOpacity,
+  View, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, Alert,
 } from 'react-native';
 
 import {
@@ -22,7 +22,7 @@ const Register = ({ navigation }) => {
   const arrayResultsBenficios = [];
 
   const {
-    control, setError, handleSubmit, formState: { errors, isValid },
+    control, setError, handleSubmit, formState: { errors, isValid, isDirty },
   } = useForm({
     defaultValues: {
       firstName: '',
@@ -48,15 +48,17 @@ const Register = ({ navigation }) => {
     if (querySnapshot.docs.length === 0) {
       try {
         await addDoc(collection(db, 'usuarios'), dataLogin);
-        // eslint-disable-next-line no-alert
-        alert(`Creado correctamente: ${dataLogin.fullname}`);
       } catch (error) {
-        console.log(error);
-        // eslint-disable-next-line no-alert
-        alert('Hubo un error intente nuevamente...');
+        Alert.alert(
+          'Error',
+          ['Ha ocurrido un error, por favor reintenta nuevamente.', error],
+          [{
+            text: 'Continuar',
+            style: 'default',
+          }],
+        );
       }
-      // eslint-disable-next-line no-alert
-    } else alert('Usuario en base de datos... Logueo normal sin alta...');
+    }
   };
   const getColletionDataBenef = async () => {
     const beneficiosRef = collection(db, 'beneficios');
@@ -71,7 +73,6 @@ const Register = ({ navigation }) => {
     console.log(arrayResultsBenficios);
     auth.onAuthStateChanged(user => {
       if (user) {
-        console.log('LogIn');
         dataLogin = {
           avatar: user.providerData[0].photoURL,
           email: user.providerData[0].email,
@@ -81,10 +82,16 @@ const Register = ({ navigation }) => {
           phonenumber: user.providerData[0].phoneNumber,
           role: 'user',
         };
-        console.log(dataLogin);
         addUserLogged(dataLogin);
       } else {
-        console.error('LogOut Fuera...');
+        Alert.alert(
+          'Ha ocurrido un error',
+          'Por favor intenta nuevamente',
+          [{
+            text: 'Continuar',
+            style: 'default',
+          }],
+        );
       }
     });
   };
@@ -102,14 +109,29 @@ const Register = ({ navigation }) => {
             displayName: `${data.firstName}`,
             photoURL: 'https://picsum.photos/100/100',
           }).then(() => {
-            console.log('Datos actualizados');
-            console.log(user);
+            getColletionDataBenef();
+            navigation.navigate('Login');
           }).catch((error) => {
             console.error(error, 'Hubo un error al actualizar...');
+            Alert.alert(
+              'Error',
+              `Ha ocurrdo un error y no se pudo crear tu usuario, por favor reintenta nuevamente.'${error.message}`,
+              [{
+                text: 'Continuar',
+                style: 'default',
+              }],
+            );
           });
         })
         .catch((error) => {
-          console.log(error);
+          Alert.alert(
+            'Error',
+            `${error.message}`,
+            [{
+              text: 'Continuar',
+              style: 'default',
+            }],
+          );
         });
     } else {
       setError('password', { type: 'custom', message: 'Las contraseñas no coinciden.' });
@@ -117,6 +139,27 @@ const Register = ({ navigation }) => {
     }
   };
 
+  const onBack = (data) => {
+    console.log(data);
+    if (!isDirty) {
+      navigation.navigate('Login');
+    } else {
+      Alert.alert(
+        '¿Seguro que deseas salir?',
+        'Perderas toda la información ingresada.',
+        [{
+          text: 'Salir',
+          onPress: () => navigation.navigate('Login'),
+          style: 'cancel',
+        },
+        {
+          text: 'Continuar',
+          onPress: () => {},
+          style: 'default',
+        }],
+      );
+    }
+  };
   return (
       <KeyboardAvoidingView
       style={styles.container}
@@ -184,6 +227,7 @@ const Register = ({ navigation }) => {
           control={control}
           rules={{
             required: true,
+            minLength: 6,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
@@ -199,14 +243,16 @@ const Register = ({ navigation }) => {
         />
         {errors.password && errors.password.type === 'custom' && <Text style={styles.errorText}>{errors.password.message}</Text>}
         {errors.password && errors.password.type === 'required' && <Text style={styles.errorText}>Este campo es obligatorio.</Text>}
+        {errors.password && errors.password.type === 'minLength' && <Text style={styles.errorText}>La longitud mínima de la contraseña debe ser de 6 dígitos.</Text>}
          <Controller
           control={control}
           rules={{
             required: true,
+            minLength: 6,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              placeholder='Ingrese la contraseña'
+              placeholder='Reingrese la contraseña'
               style={styles.input}
               onBlur={onBlur}
               onChangeText={onChange}
@@ -218,6 +264,7 @@ const Register = ({ navigation }) => {
         />
         {errors.confirmPassword && errors.confirmPassword.type === 'custom' && <Text style={styles.errorText}>{errors.confirmPassword.message}</Text>}
         {errors.confirmPassword && errors.confirmPassword.type === 'required' && <Text style={styles.errorText}>Este campo es obligatorio.</Text>}
+        {errors.confirmPassword && errors.confirmPassword.type === 'minLength' && <Text style={styles.errorText}>La longitud mínima de la contraseña debe ser de 6 dígitos.</Text>}
       </View>
       <View style={styles.buttonContainer}>
           <TouchableOpacity
@@ -227,13 +274,12 @@ const Register = ({ navigation }) => {
             <Text style={styles.buttonText}>Registrarse</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Login')}
+            onPress={onBack}
             style={[styles.button, styles.buttonOutline]}
           >
             <Text style={styles.buttonOutlineText}>Retroceder</Text>
           </TouchableOpacity>
         </View>
-        <Button onPress={createAuthWithEmailandPassword} title="Create User and Pass"/>
       </KeyboardAvoidingView>
   );
 };
