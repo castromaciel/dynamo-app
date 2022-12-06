@@ -1,7 +1,9 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Login, Dashboard, BenfitDetail } from './src/screens';
+import {
+  Login, Dashboard, BenfitDetail, Register,
+} from './src/screens';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -28,6 +30,10 @@ const App = () => {
           options={{
             headerShown: false,
           }}
+        />
+        <Stack.Screen
+          name='Register'
+          component={Register}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -6,17 +6,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  principalImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 100,
-    alignSelf: 'center',
-    marginBottom: 100,
-  },
-  socialIcon: {
-    width: 13,
-    height: 13,
-  },
   inputContainer: {
     width: '80%',
   },
