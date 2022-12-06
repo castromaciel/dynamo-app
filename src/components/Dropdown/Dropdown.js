@@ -1,21 +1,21 @@
+import React from 'react';
 import {
   View, Text, Image, TouchableOpacity, Platform,
 } from 'react-native';
-import React from 'react';
 
 const Dropdown = () => {
   return (
     < View style={{
       position: 'absolute',
       width: 200,
-      height: 105,
+      height: 102,
       backgroundColor: '#fff',
       top: 42,
       right: 2,
       borderRadius: 5,
       padding: 8,
-      zIndex: 100,
-      elevation: (Platform.OS === 'android') ? 100 : 0,
+      zIndex: 1,
+      elevation: (Platform.OS === 'android') ? 1 : 0,
       borderWidth: 0.5,
       borderColor: '#dbdbdb',
     }}>

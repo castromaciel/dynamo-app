@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  View, Image, Text, TouchableOpacity,
+  View, Image, TouchableOpacity,
 } from 'react-native';
 import { Dropdown } from '../Dropdown';
 
@@ -32,9 +32,6 @@ const Navbar = () => {
           }
         </View>
       </View >
-      <View>
-        <Text style={{ padding: 20, fontWeight: '500' }}>Hola, Juan👋</Text>
-      </View>
     </View >
   );
 };
