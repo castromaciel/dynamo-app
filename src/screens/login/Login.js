@@ -1,16 +1,11 @@
 /* eslint-disable prefer-const */
 import React from 'react';
 import {
-  View, Image, Text, TextInput, Button, KeyboardAvoidingView, TouchableOpacity, Alert,
+  View, Image, Text, TextInput, KeyboardAvoidingView, TouchableOpacity, Alert,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import {
-  GoogleAuthProvider, getAuth, signInWithRedirect, FacebookAuthProvider,
-  signInWithEmailAndPassword, signOut,
-} from 'firebase/auth';
-import {
-  getFirestore, getDocs, collection, addDoc, query, where,
-} from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
 import app from '../../../firebase';
 import { styles } from './loginSytles';
 
@@ -23,12 +18,12 @@ const Login = ({ navigation }) => {
     },
   });
 
-  const provider = new GoogleAuthProvider();
-  const providerFace = new FacebookAuthProvider();
+  // const provider = new GoogleAuthProvider();
+  // const providerFace = new FacebookAuthProvider();
   const auth = getAuth(app);
 
   // login / logOut
-  const subscribir = () => {
+  /* const subscribir = () => {
     auth.onAuthStateChanged(user => {
       if (user) {
         console.log('LogIn');
@@ -37,18 +32,18 @@ const Login = ({ navigation }) => {
       }
     });
   };
-
+ */
   // Login Google
-  const onAuthGoogle = () => {
+  /*   const onAuthGoogle = () => {
     signInWithRedirect(auth, provider);
     subscribir();
-  };
+  }; */
 
   // Login Facebook
-  const onAuthFaceebook = () => {
-    signInWithRedirect(auth, providerFace);
-    subscribir();
-  };
+  /*   const onAuthFaceebook = () => {
+      signInWithRedirect(auth, providerFace);
+      subscribir();
+    }; */
 
   // Login user and pass
   const loginAuthWithEmailandPassword = (data) => {
@@ -70,7 +65,7 @@ const Login = ({ navigation }) => {
         );
         console.log(error);
       });
-    subscribir();
+    // subscribir();
   };
 
   return (
