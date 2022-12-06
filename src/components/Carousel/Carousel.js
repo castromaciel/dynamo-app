@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import {
+  FlatList, TouchableOpacity, View,
+} from 'react-native';
 import {
   getFirestore, getDocs, collection,
 } from 'firebase/firestore';
