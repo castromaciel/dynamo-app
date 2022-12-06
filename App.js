@@ -34,6 +34,9 @@ const App = () => {
         <Stack.Screen
           name='Register'
           component={Register}
+          options={{
+            headerShown: false,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
