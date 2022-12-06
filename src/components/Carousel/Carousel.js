@@ -4,7 +4,7 @@ import {
   getFirestore, getDocs, collection,
 } from 'firebase/firestore';
 import app from '../../../firebase';
-import { CarouselItem } from '../CarouselItem';
+import CarouselItem from '../CarouselItem/CarouselItem';
 import { styles } from './styles';
 
 const db = getFirestore(app);
@@ -46,7 +46,7 @@ const Carousel = () => {
     >
       <FlatList
         data={carouselItem}
-        renderItem={CarouselItem}
+        renderItem={(object) => <CarouselItem {...object} />}
         keyExtractor={(item, index) => index.toString()}
         horizontal
         showsHorizontalScrollIndicator={false}

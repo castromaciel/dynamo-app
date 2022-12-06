@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import {
   TouchableOpacity, Text,
 } from 'react-native';
@@ -5,9 +6,9 @@ import { Card } from 'react-native-paper';
 import { styles } from './styles';
 
 const CarouselItem = ({ item }) => {
+  const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => console.log('click')}
       activeOpacity={1}
       style={styles.carouselItem}
     >
@@ -19,7 +20,12 @@ const CarouselItem = ({ item }) => {
         />
         <Card.Content style={styles.footer}>
           <TouchableOpacity
-            onPress={() => console.log(item.url)}
+            onPress={() => {
+              navigation.navigate(
+                'Benefit Modal',
+                { item },
+              );
+            }}
           >
             <Text style={styles.footerButton}>
               {item.buttonlabel}

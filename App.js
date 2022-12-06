@@ -1,16 +1,42 @@
 import React from 'react';
-import { View } from 'react-native';
-import MapIframe from './src/components/MapIframe/MapIframe';
-import Navbar from './src/components/Navbar/Navbar';
-import { Carousel } from './src/components/Carousel';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
+  Login, Dashboard, BenfitDetail, Register,
+} from './src/screens';
 
 const App = () => {
+  const Stack = createNativeStackNavigator();
   return (
-    <View>
-      <Navbar />
-      <Carousel />
-      <MapIframe />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name='Login'
+          component={Login}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name='Dashboard'
+          component={Dashboard}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name='Benefit Modal'
+          component={BenfitDetail}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name='Register'
+          component={Register}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
