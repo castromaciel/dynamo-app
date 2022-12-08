@@ -95,7 +95,7 @@ const Register = ({ navigation }) => {
           isactive: true,
           idbeneficio: arrayResultsBenficios,
           phonenumber: user.providerData[0].phoneNumber,
-          role: 'user',
+          isStaff: false,
         };
         addUserLogged(dataLogin);
       } else {
