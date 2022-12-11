@@ -25,7 +25,9 @@ import { styles } from './registerStyles';
 
 const Register = ({ navigation }) => {
   const emailValidation = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-  const spanishAlphabeticWithSpace = /^(([A-Za-záéíóúÁÉÍÓÚ]+[ ]{1}[A-Za-záéíóúÁÉÍÓÚ]+)|([A-Za-záéíóúÁÉÍÓÚ]+))$/;
+
+  const spanishAlphabeticWithSpace = /^[a-zA-ZáéíóúÁÉÍÓÚ]+([ ][a-zA-ZáéíóúÁÉÍÓÚ]+)*$/g;
+
   const arrayResultsBenficios = [];
 
   const {
