@@ -25,7 +25,9 @@ import { styles } from './registerStyles';
 
 const Register = ({ navigation }) => {
   const emailValidation = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-  const onlyLetters = /^[a-zA-ZáéíóúÁÉÍÓÚ]+$/;
+
+  const spanishAlphabeticWithSpace = /^[a-zA-ZáéíóúÁÉÍÓÚ]+([ ][a-zA-ZáéíóúÁÉÍÓÚ]+)*$/g;
+
   const arrayResultsBenficios = [];
 
   const {
@@ -193,7 +195,7 @@ const Register = ({ navigation }) => {
           control={control}
           rules={{
             required: true,
-            pattern: onlyLetters,
+            pattern: spanishAlphabeticWithSpace,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
@@ -218,7 +220,7 @@ const Register = ({ navigation }) => {
           control={control}
           rules={{
             required: true,
-            pattern: onlyLetters,
+            pattern: spanishAlphabeticWithSpace,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
