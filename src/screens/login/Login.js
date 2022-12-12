@@ -8,13 +8,16 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 import app from '../../../firebase';
 import { styles } from './loginSytles';
+import { setUser } from '../../../slices/userSlice';
 
 const Login = ({ navigation }) => {
+  const dispatch = useDispatch();
   const emailValidation = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
   const {
     control,
@@ -29,6 +32,18 @@ const Login = ({ navigation }) => {
 
   const auth = getAuth(app);
 
+  const setUserActive = (user) => {
+    dispatch(setUser({
+      fullname: user.providerData[0].displayName,
+      email: user.providerData[0].email,
+      avatar: user.providerData[0].photoURL,
+      phonenumber: user.providerData[0].phoneNumber,
+      role: 'user',
+      idbeneficio: '',
+      isactive: true,
+    }));
+  };
+
   const loginAuthWithEmailandPassword = (data) => {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
@@ -36,12 +51,13 @@ const Login = ({ navigation }) => {
         console.log(userCredential);
         console.log(user);
         navigation.navigate('Dashboard');
+        setUserActive(user);
       })
       .catch((error) => {
         Alert.alert('Error', error.message, [
           {
             text: 'Continuar',
-            onPress: () => {},
+            onPress: () => { },
           },
         ]);
         console.log(error);

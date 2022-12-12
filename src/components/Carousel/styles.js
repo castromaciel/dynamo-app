@@ -4,7 +4,6 @@ export const styles = StyleSheet.create({
   carousel: {
     maxHeight: 350,
     paddingVertical: 8,
-    marginTop: 80,
   },
   dotView: {
     flexDirection: 'row',
