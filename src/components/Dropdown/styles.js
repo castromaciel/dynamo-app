@@ -4,7 +4,6 @@ export const styles = StyleSheet.create({
   dropdownContainer: {
     position: 'absolute',
     width: 200,
-    height: 102,
     backgroundColor: '#fff',
     top: 43,
     right: 2,
