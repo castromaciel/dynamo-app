@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  View, Image, Text,
+  View, Image, TouchableOpacity,
 } from 'react-native';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../../slices/userSlice';
+import { Dropdown } from '../Dropdown';
 
 const Navbar = () => {
+  const activeUser = useSelector(selectUser);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   return (
     <View style={{ marginVertical: 35 }}>
       <View
@@ -18,17 +23,19 @@ const Navbar = () => {
           style={{ marginHorizontal: 10 }}
         />
         <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
-          <Text style={{ marginHorizontal: 10 }}>Juan</Text>
-          <Image
-            source=''
-            resizeMode='contain'
-          />
+          <TouchableOpacity onPress={() => { setIsDropdownVisible(!isDropdownVisible); }}>
+            <Image
+              source={{ uri: activeUser.avatar }}
+              resizeMode='contain'
+              style={{ height: 40, width: 40, borderRadius: 100 }}
+            />
+          </TouchableOpacity>
         </View>
-      </View>
-      <View>
-        <Text style={{ padding: 20, fontWeight: '500' }}>Hola, Juan👋</Text>
-      </View>
-    </View>
+      </View >
+      {
+        isDropdownVisible && (<Dropdown />)
+      }
+    </View >
   );
 };
 

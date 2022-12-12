@@ -2,13 +2,16 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
+    zIndex: 0,
     padding: 16,
   },
   image: {
+    zIndex: 0,
     width: '100%',
     height: 320,
   },
   content: {
+    zIndex: 0,
     marginVertical: 16,
   },
   contentText: {
