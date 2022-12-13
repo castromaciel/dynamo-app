@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+import { getAuth, signOut } from 'firebase/auth';
 import React from 'react';
 import {
   View, Text, Image, TouchableOpacity, Alert,
@@ -11,13 +12,23 @@ const Dropdown = () => {
   const activeUser = useSelector(selectUser);
   const navigation = useNavigation();
 
+  const logOut = () => {
+    const authA = getAuth();
+    signOut(authA).catch((error) => {
+      console.error('Ocurrio un error!!!', error);
+    });
+  };
+
   const showAlert = () => Alert.alert(
     'Cerrar Sesión',
     'Está seguro que quiere cerrar sesión?',
     [
       {
         text: 'Confirmar',
-        onPress: () => navigation.navigate('Login'),
+        onPress: () => {
+          logOut();
+          navigation.navigate('Login');
+        },
         style: 'cancel',
       },
       {
