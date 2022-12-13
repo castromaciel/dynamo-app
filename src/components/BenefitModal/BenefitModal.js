@@ -2,7 +2,7 @@ import {
   Text, View, Modal, TouchableOpacity,
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import { styles } from '../../../appStyles';
+import { styles } from './modalStyles';
 import { selectUser } from '../../../slices/userSlice';
 
 const BenefitModal = ({
