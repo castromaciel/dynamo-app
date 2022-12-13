@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
   View, Image, TouchableOpacity, Platform,
@@ -8,6 +9,7 @@ import { Dropdown } from '../Dropdown';
 
 const Navbar = () => {
   const activeUser = useSelector(selectUser);
+  const navigation = useNavigation();
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   return (
     <View style={{
@@ -21,11 +23,13 @@ const Navbar = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <Image
-          source={require('../../../assets/img/rc.png')}
-          resizeMode='contain'
-          style={{ marginHorizontal: 10 }}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
+          <Image
+            source={require('../../../assets/img/rc.png')}
+            resizeMode='contain'
+            style={{ marginHorizontal: 10 }}
+          />
+        </TouchableOpacity>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
           <TouchableOpacity onPress={() => { setIsDropdownVisible(!isDropdownVisible); }}>
             <Image
