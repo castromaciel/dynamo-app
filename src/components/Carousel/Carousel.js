@@ -22,7 +22,10 @@ const Carousel = () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'beneficios'));
       querySnapshot.forEach((doc) => {
-        setCarouselItem((prev) => [...prev, doc.data()]);
+        setCarouselItem((prev) => [...prev, {
+          ...doc.data(),
+          id: doc.id,
+      }]);
       });
     } catch (error) {
       console.error(error);
