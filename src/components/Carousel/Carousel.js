@@ -43,9 +43,7 @@ const Carousel = () => {
   };
 
   return (
-    <View
-      style={styles.carouselContainer}
-    >
+    <View>
       <FlatList
         data={carouselItem}
         renderItem={(object) => <CarouselItem {...object} />}
