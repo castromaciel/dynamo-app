@@ -9,6 +9,7 @@ import { store } from './store';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
+
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -25,6 +26,7 @@ const App = () => {
             component={Dashboard}
             options={{
               headerShown: false,
+              gestureEnabled: false,
             }}
           />
           <Stack.Screen
