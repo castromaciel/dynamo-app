@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  View, Image, TouchableOpacity,
+  View, Image, TouchableOpacity, Platform,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../../slices/userSlice';
@@ -10,7 +10,11 @@ const Navbar = () => {
   const activeUser = useSelector(selectUser);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   return (
-    <View style={{ marginVertical: 35 }}>
+    <View style={{
+      marginVertical: 35,
+      elevation: 10,
+      zIndex: 10,
+    }}>
       <View
         style={{
           flexDirection: 'row',
@@ -18,7 +22,7 @@ const Navbar = () => {
           justifyContent: 'space-between',
         }}>
         <Image
-          source={require('../../../assets/rc.png')}
+          source={require('../../../assets/img/rc.png')}
           resizeMode='contain'
           style={{ marginHorizontal: 10 }}
         />
