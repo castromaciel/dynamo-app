@@ -9,6 +9,8 @@ import { styles } from './styles';
 const BenfitDetail = ({ route }) => {
   const [isModalOpen, setisModalOpen] = useState(false);
   const { item } = route.params;
+  const isStaff = item.onlystaff;
+  const { id } = item;
   return (
     <DefaultScreen style={styles.container}>
       <View>
@@ -26,7 +28,13 @@ const BenfitDetail = ({ route }) => {
           <Text style={styles.footerButton}>Inscribirse</Text>
         </TouchableOpacity>
       </View>
-      <BenefitModal transparent isModalOpen={isModalOpen} setisModalOpen={setisModalOpen} />
+      <BenefitModal
+        transparent
+        isModalOpen={isModalOpen}
+        setisModalOpen={setisModalOpen}
+        isStaff={isStaff}
+        id={id}
+      />
     </DefaultScreen>
   );
 };

@@ -5,25 +5,31 @@ import { useSelector } from 'react-redux';
 import { styles } from '../../../appStyles';
 import { selectUser } from '../../../slices/userSlice';
 
-const BenefitModal = ({ isModalOpen, setisModalOpen }) => {
+const BenefitModal = ({
+  isModalOpen, isStaff, setisModalOpen, id,
+}) => {
   const activeUser = useSelector(selectUser);
-  const code = '6S21S5A5S1';
+  const userRole = () => {
+    if (activeUser.role === 'user' && isStaff === false) { return true; } else return false;
+  };
+  const code = id.slice(0, 16);
   return (
     <Modal visible={isModalOpen} transparent={true}>
       <View style={styles.modalContainer}>
         <View style={styles.modalBackground}>
-          <View style={{ height: '100%', justifyContent: `${activeUser.role ? 'space-between' : 'space-evenly'}` }}>
+          <View style={{ height: '100%', justifyContent: `${userRole() ? 'space-between' : 'space-evenly'}` }}>
             <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
-              {activeUser.role
+              {userRole()
                 ? 'Para acceder a este descuento, enviar el código a nuestro equipo de Custom Care.'
                 : 'Usted no cuenta con los beneficios necesarios para acceder a este beneficio.'}
             </Text>
             {
-              activeUser.role
+              userRole()
                 ? <Text style={styles.modalCode}>{code}</Text>
-                : <></>
+                : null
             }
-            <TouchableOpacity onPress={() => setisModalOpen(false)} style={styles.modalCloseButton}>
+            <TouchableOpacity
+              onPress={() => setisModalOpen(false)} style={styles.modalCloseButton}>
               <Text style={{ color: '#fff', fontSize: 17, textAlign: 'center' }}>Cerrar</Text>
             </TouchableOpacity>
           </View>
