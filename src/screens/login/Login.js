@@ -38,7 +38,7 @@ const Login = ({ navigation }) => {
       email: user.providerData[0].email,
       avatar: user.providerData[0].photoURL,
       phonenumber: user.providerData[0].phoneNumber,
-      role: 'user',
+      role: user.providerData[0],
       idbeneficio: '',
       isactive: true,
     }));
@@ -48,8 +48,6 @@ const Login = ({ navigation }) => {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         const { user } = userCredential;
-        console.log(userCredential);
-        console.log(user);
         navigation.navigate('Dashboard');
         setUserActive(user);
       })
@@ -60,7 +58,7 @@ const Login = ({ navigation }) => {
             onPress: () => { },
           },
         ]);
-        console.log(error);
+        console.error(error);
       });
   };
 
