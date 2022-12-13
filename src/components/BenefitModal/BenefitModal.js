@@ -10,7 +10,7 @@ const BenefitModal = ({
 }) => {
   const activeUser = useSelector(selectUser);
   const userRole = () => {
-    if (activeUser.role === 'user' && isStaff === false) { return true; } else return false;
+    if (activeUser.role === 'user' && isStaff) { return false; } else return true;
   };
   const code = id.slice(0, 16);
   return (

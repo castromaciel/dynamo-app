@@ -87,7 +87,6 @@ const Register = ({ navigation }) => {
     });
 
     let dataLogin = {};
-    console.log(arrayResultsBenficios);
     auth.onAuthStateChanged((user) => {
       if (user) {
         dataLogin = {
@@ -166,7 +165,6 @@ const Register = ({ navigation }) => {
   };
 
   const onBack = (data) => {
-    console.log(data);
     if (!isDirty) {
       navigation.navigate('Login');
     } else {
@@ -181,7 +179,7 @@ const Register = ({ navigation }) => {
           },
           {
             text: 'Continuar',
-            onPress: () => {},
+            onPress: () => { },
             style: 'default',
           },
         ],
@@ -317,12 +315,12 @@ const Register = ({ navigation }) => {
           <Text style={styles.errorText}>{errors.confirmPassword.message}</Text>
         )}
         {errors.confirmPassword && errors.confirmPassword.type === 'required' && (
-            <Text style={styles.errorText}>Este campo es obligatorio.</Text>
+          <Text style={styles.errorText}>Este campo es obligatorio.</Text>
         )}
         {errors.confirmPassword && errors.confirmPassword.type === 'minLength' && (
-            <Text style={styles.errorText}>
-              La longitud mínima de la contraseña debe ser de 6 dígitos.
-            </Text>
+          <Text style={styles.errorText}>
+            La longitud mínima de la contraseña debe ser de 6 dígitos.
+          </Text>
         )}
       </View>
       <View style={styles.buttonContainer}>
